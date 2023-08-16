@@ -10,6 +10,7 @@
 (ido-mode 1)
 
 (setq-default compile-command "bash run.sh")
+(setq-default tab-width 4)
 
 ;; Need to install smex and undo-tree for these operations
 (global-set-key (kbd "M-x") 'smex)
