@@ -1,10 +1,9 @@
+(setq inhibit-startup-screen t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (require 'undo-tree)
 (global-undo-tree-mode)
-(require 'dirtree)
-
-(setq inhibit-startup-screen t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(require 'smex)
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -18,7 +17,6 @@
 (global-set-key (kbd "C-r") 'redo)
 (global-set-key (kbd "C-x j") 'undo-tree-visualize)
 (global-set-key (kbd "C-t") 'shell-command)
-(global-set-key (kbd "C-x t") 'dirtree) 
 ;; Use system clipboard instead of emacs kill ring
 (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-w") 'clipboard-kill-region)
