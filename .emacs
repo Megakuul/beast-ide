@@ -26,6 +26,11 @@
 (global-set-key (kbd "C-x q") 'quoted-insert)
 (global-set-key (kbd "C-q") 'other-window)
 
+;; Use this to set tab-width to 4 in go-mode
+;; (defun go-mode-setup ()
+;;   (setq tab-width 4))
+;; (add-hook 'go-mode-hook 'go-mode-setup)
+
 ;;(setq-default display-line-numbers 'relative)g
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
