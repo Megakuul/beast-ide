@@ -9,6 +9,9 @@
 (tool-bar-mode 0)
 (ido-mode 1)
 
+;; Wraps words instead of letters
+(global-visual-line-mode 1)
+
 (setq-default compile-command "bash run.sh")
 (setq-default tab-width 4)
 
