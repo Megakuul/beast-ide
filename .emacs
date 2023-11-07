@@ -32,6 +32,15 @@
 (global-set-key (kbd "C-x q") 'quoted-insert)
 (global-set-key (kbd "C-q") 'other-window)
 
+(defun mark-fullword ()
+  "Mark the whole word selected by cursor"
+  (interactive)
+  (backward-word)
+  (mark-word))
+
+(global-set-key (kbd "C-c C-x") 'mark-fullword)
+(global-set-key (kbd "C-c C-f") 'mark-defun)
+
 ;; Use this to set tab-width to 4 in go-mode
 ;; (defun go-mode-setup ()
 ;;   (setq tab-width 4))
