@@ -2,10 +2,16 @@
 
 (require 'lsp-mode)
 (require 'rust-mode)
+(require 'company)
 (add-hook 'rust-mode-hook #'lsp)
 
 (use-package rust-mode
   :hook (rust-mode . lsp-deferred))
+
+(use-package company
+  :ensure t
+  :config
+  (global-company-mode))
 
 (use-package lsp-ui
   :ensure t
