@@ -4,6 +4,12 @@
 (require 'lsp-mode)
 (require 'company)
 
+(use-package c++-mode
+  :ensure nil
+  :hook ((c++-mode . lsp)
+		 (c-mode . lsp))
+  :commands lsp)
+
 (use-package company
   :ensure t
   :config
