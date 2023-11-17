@@ -1,4 +1,5 @@
-;; Add thisto your emacs-conf if you use go
+;; Add this to your emacs-conf if you use go
+;; requires rust-analyzer to be setup on the system
 
 (require 'lsp-mode)
 (require 'rust-mode)
