@@ -1,14 +1,13 @@
 ;; Add this to your emacs-conf if you use cpp
-;; requires clangd to be setup on the system
+;; requires ccls to be setup on the system
 
 (require 'lsp-mode)
 (require 'company)
+(require 'ccls)
 
-(use-package c++-mode
-  :ensure nil
-  :hook ((c++-mode . lsp)
-		 (c-mode . lsp))
-  :commands lsp)
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda () (require 'ccls) (lsp))))
 
 (use-package company
   :ensure t
