@@ -1,24 +1,75 @@
-(setq inhibit-startup-screen t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; Package Initialization
 
-(require 'undo-tree)
-(global-undo-tree-mode)
-(require 'smex)
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")))
+(package-initialize)
 
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(ido-mode 1)
+;; Ensure use-package is installed
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; Wraps words instead of letters
-(global-visual-line-mode 1)
+;; Ensure that the use-package is always used
+(eval-when-compile
+  (require 'use-package))
 
-(setq-default compile-command "bash run.sh")
+;; Package setup
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+
+(use-package smex
+  :ensure t)
+
+(use-package go-mode
+  :ensure t)
+
+(use-package company
+  :ensure t
+  :config
+  (global-company-mode))
+
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-use-childframe t
+        lsp-ui-doc-position 'top
+        lsp-ui-doc-include-signature t
+        lsp-ui-sideline-enable t
+        lsp-ui-flycheck-enable t
+        lsp-ui-sideline-ignore-duplicate t))
+
+(use-package rust-mode
+  :hook (rust-mode . lsp-deferred))
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda () (require 'ccls) (lsp))))
+
 (setq-default tab-width 4)
 
 ;; zsh shell is fully lagging on term mode
 (setq explicit-shell-file-name "/bin/bash")
 
-;; Need to install smex and undo-tree for these operations
+;; Wraps words instead of letters
+(global-visual-line-mode 1)
+
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(ido-mode 1)
+
+;; Keybinds
+
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "C-r") 'redo)
@@ -41,12 +92,13 @@
 (global-set-key (kbd "C-c C-x") 'mark-fullword)
 (global-set-key (kbd "C-c C-f") 'mark-defun)
 
-;; Use this to set tab-width to 4 in go-mode
-;; (defun go-mode-setup ()
-;;   (setq tab-width 4))
-;; (add-hook 'go-mode-hook 'go-mode-setup)
+(define-key lsp-mode-map (kbd "C-c d") 'lsp-ui-doc-show)
+(define-key lsp-mode-map (kbd "C-c f") 'lsp-describe-thing-at-point)
+(define-key lsp-mode-map (kbd "C-f") 'company-complete)
+(define-key lsp-mode-map (kbd "C-c m") 'flymake-show-buffer-diagnostics)
 
-;;(setq-default display-line-numbers 'relative)g
+;; Visual configuration
+
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 
@@ -72,3 +124,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+;; Additional configuration
+
+ (defun go-mode-setup ()
+   (setq tab-width 4))
+(add-hook 'go-mode-hook 'go-mode-setup)
+
+(setenv "PATH" (concat "~/go/bin:" (getenv "PATH")))
+(add-to-list 'exec-path "~/go/bin")
