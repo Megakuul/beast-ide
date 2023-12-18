@@ -52,9 +52,8 @@
 (use-package rust-mode
   :hook (rust-mode . lsp-deferred))
 
-(use-package ccls
-  :hook ((c-mode c++-mode objc-mode) .
-         (lambda () (require 'ccls) (lsp))))
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
 
 (setq-default tab-width 4)
 
@@ -92,10 +91,11 @@
 (global-set-key (kbd "C-c C-x") 'mark-fullword)
 (global-set-key (kbd "C-c C-f") 'mark-defun)
 
-(define-key lsp-mode-map (kbd "C-c d") 'lsp-ui-doc-show)
-(define-key lsp-mode-map (kbd "C-c f") 'lsp-describe-thing-at-point)
-(define-key lsp-mode-map (kbd "C-f") 'company-complete)
-(define-key lsp-mode-map (kbd "C-c m") 'flymake-show-buffer-diagnostics)
+(with-eval-after-load 'lsp-mode
+  (define-key lsp-mode-map (kbd "C-c d") 'lsp-ui-doc-show)
+  (define-key lsp-mode-map (kbd "C-c f") 'lsp-describe-thing-at-point)
+  (define-key lsp-mode-map (kbd "C-f") 'company-complete)
+  (define-key lsp-mode-map (kbd "C-c m") 'flymake-show-buffer-diagnostics))
 
 ;; Visual configuration
 
