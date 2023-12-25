@@ -55,7 +55,7 @@
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 
 ;; zsh shell is fully lagging on term mode
 (setq explicit-shell-file-name "/bin/bash")
