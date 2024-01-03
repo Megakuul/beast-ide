@@ -52,6 +52,9 @@
 (use-package rust-mode
   :hook (rust-mode . lsp-deferred))
 
+(use-package dracula-theme
+	:ensure t)
+
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
@@ -107,10 +110,11 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
-(load-theme 'misterioso)
+(load-theme 'dracula t)
 ;; This one is cool aswell
+;;(load-theme 'misterioso)
+;; Or this
 ;;(load-theme 'tango-dark)
-;;(disable-theme 'misterioso)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
