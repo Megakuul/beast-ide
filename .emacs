@@ -58,7 +58,9 @@
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
+(setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
+(setq-default standard-indent 2)
 
 ;; zsh shell is fully lagging on term mode
 (setq explicit-shell-file-name "/bin/bash")
@@ -69,6 +71,18 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (ido-mode 1)
+
+;; C-mode indentation does align a function arg after a line-break
+;; at the end of the above statement -> This hook changes this behavior
+(defun c-mode-indentation-deretard-hook ()
+  (setq c-basic-offset 2)
+
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-cont-nonempty '(+ . 2))
+  (c-set-offset 'arglist-close 0)
+)
+
+(add-hook 'c-mode-common-hook 'c-mode-indentation-deretard-hook)
 
 ;; Keybinds
 
@@ -121,7 +135,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
- '(package-selected-packages '(dirtree undo-tree cmake-mode smex)))
+ '(package-selected-packages '(bazel dirtree undo-tree cmake-mode smex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -132,9 +146,6 @@
 
 ;; Additional configuration
 
- (defun go-mode-setup ()
-   (setq tab-width 4))
-(add-hook 'go-mode-hook 'go-mode-setup)
-
+;; Add gopath
 (setenv "PATH" (concat "~/go/bin:" (getenv "PATH")))
 (add-to-list 'exec-path "~/go/bin")
