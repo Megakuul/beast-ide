@@ -98,6 +98,8 @@
 ;; Move quoted insert to C-x q
 (global-set-key (kbd "C-x q") 'quoted-insert)
 (global-set-key (kbd "C-q") 'other-window)
+;; Find definition
+(global-set-key (kbd "C-<return>") 'xref-find-definitions)
 
 (defun mark-fullword ()
   "Mark the whole word selected by cursor"
