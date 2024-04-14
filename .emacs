@@ -84,6 +84,10 @@
 
 (add-hook 'c-mode-common-hook 'c-mode-indentation-deretard-hook)
 
+
+;; Set compile command to ""
+(setq compile-command "")
+
 ;; Keybinds
 
 (global-set-key (kbd "M-x") 'smex)
