@@ -1,3 +1,6 @@
+;; Start in fullscreen by default
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 ;; Package Initialization
 
 (require 'package)
