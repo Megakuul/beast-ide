@@ -5,6 +5,7 @@
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                          ("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
@@ -19,12 +20,20 @@
 
 ;; Package setup
 
+(use-package kanagawa-themes
+  :ensure t)
+
+;; (use-package dracula-theme :ensure t)
+
 (use-package undo-tree
   :ensure t
   :config
   (global-undo-tree-mode))
 
 (use-package smex
+  :ensure t)
+
+(use-package eat
   :ensure t)
 
 (use-package go-mode
@@ -55,9 +64,6 @@
 (use-package rust-mode
   :hook (rust-mode . lsp-deferred))
 
-(use-package dracula-theme
-	:ensure t)
-
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
@@ -65,7 +71,6 @@
 (setq-default tab-width 2)
 (setq-default standard-indent 2)
 
-;; zsh shell is fully lagging on term mode
 (setq explicit-shell-file-name "/bin/bash")
 
 ;; Wraps words instead of letters
@@ -96,15 +101,18 @@
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "C-r") 'redo)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-x j") 'undo-tree-visualize)
-(global-set-key (kbd "C-t") 'shell-command)
+(global-set-key (kbd "C-t") 'eat)
 ;; Use system clipboard instead of emacs kill ring
 (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-w") 'clipboard-kill-region)
 (global-set-key (kbd "C-y") 'clipboard-yank)
-;; Move quoted insert to C-x q
-(global-set-key (kbd "C-x q") 'quoted-insert)
-(global-set-key (kbd "C-q") 'other-window)
+;; C-q is catched before it is passed to any subprocess
+;; no terminal fucks with my window switching keybinds
+(define-key input-decode-map (kbd "C-q") [override-window-switch])
+(global-set-key [override-window-switch] 'other-window)
 ;; Find definition
 (global-set-key (kbd "C-<return>") 'xref-find-definitions)
 
@@ -117,6 +125,16 @@
 (global-set-key (kbd "C-c C-x") 'mark-fullword)
 (global-set-key (kbd "C-c C-f") 'mark-defun)
 
+(defun force-kill-buffer ()
+  (interactive)
+  (let ((process (get-buffer-process (current-buffer))))
+    (when process
+      (set-process-query-on-exit-flag process nil)
+      (kill-process process))
+    (kill-buffer (current-buffer))))
+
+(global-set-key (kbd "C-x C-k") 'force-kill-buffer)
+
 (with-eval-after-load 'lsp-mode
   (define-key lsp-mode-map (kbd "C-c d") 'lsp-ui-doc-show)
   (define-key lsp-mode-map (kbd "C-c f") 'lsp-describe-thing-at-point)
@@ -125,6 +143,9 @@
 
 ;; Visual configuration
 
+(set-frame-font "Iosevka Medium-12" nil t)
+(scroll-bar-mode -1)
+
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 
@@ -132,26 +153,11 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-
-(load-theme 'dracula t)
+(load-theme 'kanagawa-wave t)
 ;; This one is cool aswell
 ;;(load-theme 'misterioso)
 ;; Or this
 ;;(load-theme 'tango-dark)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ispell-dictionary nil)
- '(package-selected-packages '(bazel dirtree undo-tree cmake-mode smex)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 
 ;; Additional configuration
 
