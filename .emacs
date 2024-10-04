@@ -113,6 +113,14 @@
 ;; no terminal fucks with my window switching keybinds
 (define-key input-decode-map (kbd "C-q") [override-window-switch])
 (global-set-key [override-window-switch] 'other-window)
+;; C-b is also inevitable
+;; switches to the last buffer in that window
+(define-key input-decode-map (kbd "C-b") [override-buffer-switch])
+(global-set-key [override-buffer-switch]
+                (lambda ()
+                  (interactive)
+                  (switch-to-buffer (other-buffer))
+                  ))
 ;; Find definition
 (global-set-key (kbd "C-<return>") 'xref-find-definitions)
 
