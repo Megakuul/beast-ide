@@ -104,7 +104,8 @@
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-x j") 'undo-tree-visualize)
-(global-set-key (kbd "C-x c") 'comment-dwim)
+(global-set-key (kbd "C-c q") 'query-replace)
+(global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-t") 'eat)
 ;; Use system clipboard instead of emacs kill ring
 (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
